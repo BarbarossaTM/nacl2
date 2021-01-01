@@ -12,13 +12,25 @@ As Freifunk Hochstift - which is one of the main users - uses SaltStack for auto
 NACL2 will consist of **Sources** which will be queried for inventory information or anyting which might be relevant to feed your automation and providing this informaton in well defined **Data Types** to NACL2.
 The primary source obviously is `netbox` for now.
 
-Once all configured sources are queried **Logic modules** will be run in a configured order and gather and/or mangle information needed from the inventory, annotate devices, VMs, interfaces, etc. and generate configuration items based on the those. The aim is to provide generic modules where possible and have a framework which provides freedom to add own magic dust as well.
+**Logic modules** will be responsible to gather and/or mangle information needed from the inventory, annotate devices, VMs, interfaces, etc. and generate configuration items based on the those. The aim is to provide generic modules where possible and have a framework which provides freedom to add own magic dust as well.
 
 Sources, Data types, and Logic Modules will be designed as Python modules following an internal (to be defined) API.
 
+### Lifecycle
+
+On start-up NACL2 will invoke all configured Sources and run all activated Logic Modules in the configured order.
+Once finished the computed data set is cached and available to be queried via the API.
+Queries will always be answered from the cached data set.
+If desired queries arriving before computation has finished can be delayed until the data set is ready.
+
+NACL2 will check if a re-computation is required on a regular configurable basis; re-compututation can also be triggered via the API.
+Computation will run in the background and once finished succesfully the internal cache will be updated.
+
 ### Sources
 
-Source modules are responsible for retrieving inventory and/or configuration information as well as any other *intent* from any source useful and store the information in pre- or self-defined data types and structures. 
+Source modules are responsible for retrieving inventory and/or configuration information as well as any other *intent* from any source useful and store the information in pre- or self-defined data types and structures.
+
+Source modules should implement a method to check if the data in the given source has been changed and a reload is required.
 
 ### Data Types
 
@@ -35,6 +47,12 @@ Example modules could for example
  * compute OSPF configuration for interfaces based on interface properties (IPs, prefixes, interface names, tags, ...)
  * compute iBGP peerings between nodes based on the roles and remote roles (sessions to RRs, between RRs, etc.)
  * ...
+
+### API
+
+NACL2 will provide a REST-API and maybe a gRPC API to retrieve the computed information in part or in full and trigger a reload of the configuration and data.
+
+The API might in the future allow to change information in the sources, for example add devices, IPs, etc.
 
 
 ## Use Cases
