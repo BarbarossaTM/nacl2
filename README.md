@@ -9,12 +9,12 @@ NACL2 is based on the experiences made with [NACL](https://github.com/BarbarosaT
 NACL2 is designed as a modular framework to act as a abstraction, caching and compute layer between Netbox and your automation.
 As Freifunk Hochstift - which is one of the main users - uses SaltStack for automation, ext_pillar modules for SaltStack will be available. Others might follow.
 
-NACL2 will consist of **Sources** which will be queried for inventory information or anyting which might be relevant to feed your automation and providing this informaton in well defined **Data Types** to NACL2.
+NACL2 will consist of **Sources** which will be queried for inventory information or anyting which might be relevant to feed your automation and providing this informaton in well defined **Data Types** within NACL2. All source data will be stored in a central data structure.
 The primary source obviously is `netbox` for now.
 
-**Logic modules** will be responsible to gather and/or mangle information needed from the inventory, annotate devices, VMs, interfaces, etc. and generate configuration items based on the those. The aim is to provide generic modules where possible and have a framework which provides freedom to add own magic dust as well.
+**Logic modules** will be responsible to gather and/or mangle information needed from the inventory (read: Source data), annotate devices, VMs, interfaces, etc. and generate configuration items based on the those. The aim is to provide generic modules where possible and have a framework which provides freedom to add own magic dust as well. Data computed by Logic modules will be stored in a seperate data structure besides source data; each logic module should get a reference to the source data as well as computed data set and should update the latter if required.
 
-Sources, Data types, and Logic Modules will be designed as Python modules following an internal (to be defined) API.
+Sources, Data types, and Logic Modules will be designed as modules following an internal (to be defined) Interface/API.
 
 ### Lifecycle
 
