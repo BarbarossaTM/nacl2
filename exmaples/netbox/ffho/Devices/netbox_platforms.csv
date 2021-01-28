@@ -1,0 +1,6 @@
+name,slug,manufacturer,napalm_driver,napalm_args,description
+AirOS,airos,Ubiquiti,,,
+EdgeOS,edgeos,Ubiquiti,,,
+IOS,ios,Cisco,ios,,
+Linux,linux,,,,
+Netonix,netonix,Netonix,,,
