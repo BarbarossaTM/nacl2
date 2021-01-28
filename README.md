@@ -39,11 +39,11 @@ Logic modules for example could
  * compute OSPF configuration for interfaces based on interface properties (IPs, prefixes, interface names, tags, ...)
  * compute iBGP peerings between nodes based on the roles and remote roles (sessions to RRs, between RRs, etc.)
  * ...
- 
- ### View Modules
- 
+
+### View Modules
+
 View modules are responsible for mangling all relevant information in the desired output format (that may be a JSON, YAML, ... data structure or text config) for a given device. Rendering configuration data per device allows inclusion of secrets on a per device basis.
- 
+
 ### API
 
 NACL2 will provide a REST-API and maybe a gRPC API to retrieve the computed information in part or in full and trigger a reload of the configuration and data.
